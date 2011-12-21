@@ -96,7 +96,7 @@ eval {
   my $h3 = new Crypt::PWSafe3::HeaderField(name => 'savedonhost', value => 'localhost');
 
   $vault5->addheader($h3);
-
+  $vault5->markmodified();
   $vault5->save(file=>'t/5.out');
 
   my $rvault5 = new Crypt::PWSafe3(file => 't/5.out', password => 'tom');

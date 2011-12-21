@@ -7,7 +7,7 @@ use Exporter ();
 use vars qw(@ISA @EXPORT);
 use utf8;
 
-$Crypt::PWSafe3::Field::VERSION = '1.00';
+$Crypt::PWSafe3::Field::VERSION = '1.01';
 
 %Crypt::PWSafe3::Field::map2type = (
 		uuid     => 0x01,

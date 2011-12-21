@@ -9,7 +9,7 @@ my %map2type = %Crypt::PWSafe3::Field::map2type;
 
 my %map2name = %Crypt::PWSafe3::Field::map2name;
 
-$Crypt::PWSafe3::Record::VERSION = '1.00';
+$Crypt::PWSafe3::Record::VERSION = '1.01';
 
 foreach my $field (keys %map2type ) {
   eval  qq(
