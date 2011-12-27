@@ -22,7 +22,7 @@ use Data::Dumper;
 use Exporter ();
 use vars qw(@ISA @EXPORT);
 
-$Crypt::PWSafe3::VERSION = '1.01';
+$Crypt::PWSafe3::VERSION = '1.02';
 
 use Crypt::PWSafe3::Field;
 use Crypt::PWSafe3::HeaderField;
@@ -870,7 +870,7 @@ http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Crypt-PWSafe3.
 
 =head1 VERSION
 
-Crypt::PWSafe3 Version 1.00.
+Crypt::PWSafe3 Version 1.02.
 
 =head1 SEE ALSO
 

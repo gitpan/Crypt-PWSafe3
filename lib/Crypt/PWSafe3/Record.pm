@@ -9,7 +9,7 @@ my %map2type = %Crypt::PWSafe3::Field::map2type;
 
 my %map2name = %Crypt::PWSafe3::Field::map2name;
 
-$Crypt::PWSafe3::Record::VERSION = '1.01';
+$Crypt::PWSafe3::Record::VERSION = '1.02';
 
 foreach my $field (keys %map2type ) {
   eval  qq(
@@ -183,9 +183,9 @@ Returns the group without argument. Sets the group
 if an argument is given.
 
 Group hierarchy can be done by separating subgroups
-by slash, eg:
+by dot, eg:
 
- $record->group('accounts/banking');
+ $record->group('accounts.banking');
 
 =head2 B<ctime([time_t])>
 

@@ -11,6 +11,7 @@ WriteMakefile(
 				  'Crypt::Twofish' => 2.14,
 				  'Crypt::Random'  => 1.25,
 				  'Data::UUID'     => 1.217,
+				  'Shell'          => 0.5,
 				},
 	      'AUTHOR'       => 'Thomas Linden <tlinden@cpan.org>',
 	      'clean'        => {

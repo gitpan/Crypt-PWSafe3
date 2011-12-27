@@ -1,3 +1,8 @@
+1.02
+	doc fix in ::Record (group separator is . not /)
+	added Shell.pm to Makefile.PL dependencies
+
+
 1.01
 	bug fix in t/run.t
 
