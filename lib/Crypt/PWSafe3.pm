@@ -15,14 +15,14 @@ use Digest::HMAC;
 use Digest::SHA;
 use Crypt::Random qw( makerandom );
 use Data::UUID;
-use Shell qw(mv);
+use Shell qw(mv cp);
 use File::Spec;
 use FileHandle;
 use Data::Dumper;
 use Exporter ();
 use vars qw(@ISA @EXPORT);
 
-$Crypt::PWSafe3::VERSION = '1.02';
+$Crypt::PWSafe3::VERSION = '1.03';
 
 use Crypt::PWSafe3::Field;
 use Crypt::PWSafe3::HeaderField;
@@ -375,7 +375,8 @@ sub save {
   }
   else {
     # well, seems to be ok :)
-    mv($tmpfile, $file);
+    cp($tmpfile, $file);
+    unlink $tmpfile;
   }
 }
 
@@ -870,7 +871,7 @@ http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Crypt-PWSafe3.
 
 =head1 VERSION
 
-Crypt::PWSafe3 Version 1.02.
+Crypt::PWSafe3 Version 1.03.
 
 =head1 SEE ALSO
 
