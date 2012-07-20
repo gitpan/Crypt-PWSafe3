@@ -10,3 +10,4 @@ README
 t/run.t
 t/tom.psafe3
 CHANGELOG
+META.yml                                 Module meta-data (added by MakeMaker)

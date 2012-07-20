@@ -1,0 +1,29 @@
+--- #YAML:1.0
+name:               Crypt-PWSafe3
+version:            1.04
+abstract:           ~
+author:
+    - Thomas Linden <tlinden@cpan.org>
+license:            unknown
+distribution_type:  module
+configure_requires:
+    ExtUtils::MakeMaker:  0
+build_requires:
+    ExtUtils::MakeMaker:  0
+requires:
+    Crypt::CBC:      2.3
+    Crypt::ECB:      1.45
+    Crypt::Random:   1.25
+    Crypt::Twofish:  2.14
+    Data::UUID:      1.217
+    Digest::HMAC:    1
+    Digest::SHA:     1
+    Shell:           0.5
+no_index:
+    directory:
+        - t
+        - inc
+generated_by:       ExtUtils::MakeMaker version 6.55_02
+meta-spec:
+    url:      http://module-build.sourceforge.net/META-spec-v1.4.html
+    version:  1.4
