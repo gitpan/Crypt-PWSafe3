@@ -15,14 +15,14 @@ use Digest::HMAC;
 use Digest::SHA;
 use Crypt::Random qw( makerandom );
 use Data::UUID;
-use Shell qw(mv cp);
+use File::Copy qw(copy move);
 use File::Spec;
 use FileHandle;
 use Data::Dumper;
 use Exporter ();
 use vars qw(@ISA @EXPORT);
 
-$Crypt::PWSafe3::VERSION = '1.04';
+$Crypt::PWSafe3::VERSION = '1.05';
 
 use Crypt::PWSafe3::Field;
 use Crypt::PWSafe3::HeaderField;
@@ -375,8 +375,7 @@ sub save {
   }
   else {
     # well, seems to be ok :)
-    cp($tmpfile, $file);
-    unlink $tmpfile;
+    move($tmpfile, $file);
   }
 }
 
@@ -902,7 +901,7 @@ and/or modify it under the same terms as Perl itself.
 
 =head1 VERSION
 
-Crypt::PWSafe3 Version 1.04.
+Crypt::PWSafe3 Version 1.05.
 
 =cut
 
