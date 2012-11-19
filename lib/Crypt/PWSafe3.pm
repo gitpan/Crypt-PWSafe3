@@ -22,12 +22,41 @@ use Data::Dumper;
 use Exporter ();
 use vars qw(@ISA @EXPORT);
 
-$Crypt::PWSafe3::VERSION = '1.05';
+$Crypt::PWSafe3::VERSION = '1.06';
 
 use Crypt::PWSafe3::Field;
 use Crypt::PWSafe3::HeaderField;
 use Crypt::PWSafe3::Record;
 use Crypt::PWSafe3::SHA256;
+
+#
+# check, which random source to use.
+# install a wrapper closure around the
+# one we found.
+BEGIN {
+  eval { require Bytes::Random::Secure  };
+  if ($@) {
+    # well, didn' work, use slow function
+    eval { require Crypt::Random; };# qw( makerandom ); };
+    if ($@) {
+      croak "Could not find either Crypt::Random or Bytes::Random::Secure. Install one of them and retry!";
+    }
+    else {
+      *Crypt::PWSafe3::random = sub {
+	my($this, $len) = @_;
+	my $bits = makerandom(Size => 256, Strength => 1);
+	return substr($bits, 0, $len);
+      };
+    }
+  }
+  else {
+    # good. use the faster one
+    *Crypt::PWSafe3::random = sub {
+      my($this, $len) = @_;
+      return random_bytes($len);
+    };
+  }
+}
 
 my @fields = qw(tag salt iter shaps b1 b2 b3 b4 keyk file program
 		keyl iv hmac header strechedpw password whoami);
@@ -470,6 +499,26 @@ sub modifyrecord {
   $this->markmodified();
 }
 
+sub deleterecord {
+  #
+  # delete a record identified by the given uuid, if present
+  # 
+  # returns 1 if record was actually removed, 0 if it was not present
+  my($this, $uuid) = @_;
+
+  if (! exists $this->{record}->{$uuid}) {
+      return 0;
+  }
+
+  delete $this->{record}->{$uuid};
+
+  # mark vault as modified
+  $this->markmodified();
+
+  return 1;
+}
+
+
 sub markmodified {
   #
   # mark the vault as modified by setting the appropriate header fields
@@ -621,13 +670,6 @@ sub writebytes {
   }
 }
 
-sub random {
-  #
-  # helper, return some secure random bytes
-  my($this, $len) = @_;
-  my $bits = makerandom(Size => 256, Strength => 1);
-  return substr($bits, 0, $len);
-}
 
 sub getheader {
   #
@@ -818,6 +860,10 @@ type with according values. Refer to L<Crypt::PWSafe3::Record>
 for details about available fields.
 
 
+=head2 B<deleterecord(uuid)>
+
+Delete the record identified by the given UUID.
+
 =head2 B<save([parameter-hash])>
 
 Save the current password safe vault back to disk.
@@ -901,7 +947,7 @@ and/or modify it under the same terms as Perl itself.
 
 =head1 VERSION
 
-Crypt::PWSafe3 Version 1.05.
+Crypt::PWSafe3 Version 1.06.
 
 =cut
 
