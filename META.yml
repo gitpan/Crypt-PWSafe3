@@ -26,4 +26,4 @@ requires:
   Digest::HMAC: 1
   Digest::SHA: 1
   Shell: 0.5
-version: 1.06
+version: 1.07

@@ -22,7 +22,7 @@ use Data::Dumper;
 use Exporter ();
 use vars qw(@ISA @EXPORT);
 
-$Crypt::PWSafe3::VERSION = '1.06';
+$Crypt::PWSafe3::VERSION = '1.07';
 
 use Crypt::PWSafe3::Field;
 use Crypt::PWSafe3::HeaderField;
@@ -34,7 +34,10 @@ use Crypt::PWSafe3::SHA256;
 # install a wrapper closure around the
 # one we found.
 BEGIN {
-  eval { require Bytes::Random::Secure  };
+  eval { 
+      require Bytes::Random::Secure;
+      Bytes::Random::Secure->import("random_bytes");
+  };
   if ($@) {
     # well, didn' work, use slow function
     eval { require Crypt::Random; };# qw( makerandom ); };
@@ -947,7 +950,7 @@ and/or modify it under the same terms as Perl itself.
 
 =head1 VERSION
 
-Crypt::PWSafe3 Version 1.06.
+Crypt::PWSafe3 Version 1.07.
 
 =cut
 
