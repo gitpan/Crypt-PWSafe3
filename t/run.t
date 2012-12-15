@@ -12,6 +12,7 @@ use Data::Dumper;
 #use Test::More tests => 57;
 use Test::More qw(no_plan);
 
+my $pass = 'tom';
 
 ### 1
 # load module
@@ -21,7 +22,7 @@ require_ok( 'Crypt::PWSafe3' );
 ### 2
 # open vault and read in all records
 eval {
-  my $vault = new Crypt::PWSafe3(file => 't/tom.psafe3', password => 'tom');
+  my $vault = new Crypt::PWSafe3(file => 't/tom.psafe3', password => $pass);
   my @r = $vault->getrecords;
   my $got = 0;
   foreach my $rec (@r) {
@@ -48,7 +49,7 @@ my %data3 = (
 	     notes  => 'n3'
 	     );
 eval {
-  my $vault3 = new Crypt::PWSafe3(file => 't/tom.psafe3', password => 'tom');
+  my $vault3 = new Crypt::PWSafe3(file => 't/tom.psafe3', password => $pass);
   foreach my $uuid ($vault3->looprecord) {
     $uuid3 = $uuid;
     $vault3->modifyrecord($uuid3, %data3);
@@ -56,7 +57,7 @@ eval {
   }
   $vault3->save(file=>'t/3.out');
 
-  my $rvault3 = new Crypt::PWSafe3(file => 't/3.out', password => 'tom');
+  my $rvault3 = new Crypt::PWSafe3(file => 't/3.out', password => $pass);
   $rec3       = $rvault3->getrecord($uuid3);
   
   foreach my $name (keys %data3) {
@@ -71,7 +72,7 @@ is_deeply(\%data3, \%rdata3, "Change a record an check if changes persist after 
 # re-use $rec3 and change it the oop way
 my $rec4;
 eval {
-  my $vault4 = new Crypt::PWSafe3(file => 't/3.out', password => 'tom');
+  my $vault4 = new Crypt::PWSafe3(file => 't/3.out', password => $pass);
   $rec4      = $vault4->getrecord($uuid3);
  
   $rec4->user("u4");
@@ -81,7 +82,7 @@ eval {
   $vault4->markmodified();
   $vault4->save(file=>'t/4.out');
 
-  my $rvault4 = new Crypt::PWSafe3(file => 't/4.out', password => 'tom');
+  my $rvault4 = new Crypt::PWSafe3(file => 't/4.out', password => $pass);
   $rec4 = $rvault4->getrecord($uuid3);
   if ($rec4->user ne 'u4') {
     die "oop way record change failed";
@@ -92,7 +93,7 @@ ok(!$@, "re-use record and change it the oop way\n" . $@ . "\n");
 
 ### 5 modify some header fields
 eval {
-  my $vault5 = new Crypt::PWSafe3(file => 't/tom.psafe3', password => 'tom');
+  my $vault5 = new Crypt::PWSafe3(file => 't/tom.psafe3', password => $pass);
 
   my $h3 = new Crypt::PWSafe3::HeaderField(name => 'savedonhost', value => 'localhost');
 
@@ -100,7 +101,7 @@ eval {
   $vault5->markmodified();
   $vault5->save(file=>'t/5.out');
 
-  my $rvault5 = new Crypt::PWSafe3(file => 't/5.out', password => 'tom');
+  my $rvault5 = new Crypt::PWSafe3(file => 't/5.out', password => $pass);
 
   if ($rvault5->getheader('savedonhost')->value() ne 'localhost') {
     die "header savedonhost not correct";
@@ -110,11 +111,11 @@ ok(!$@, "modify some header fields ($@)");
 
 ### 6 delete
 eval {
-  my $vault6 = new Crypt::PWSafe3(file => 't/3.out', password => 'tom');
+  my $vault6 = new Crypt::PWSafe3(file => 't/3.out', password => $pass);
   my $uuid      = $vault6->newrecord(user => 'xxx', passwd => 'y');
   $vault6->save(file=>'t/6.out');
 
-  my $rvault6 = new Crypt::PWSafe3(file => 't/6.out', password => 'tom');
+  my $rvault6 = new Crypt::PWSafe3(file => 't/6.out', password => $pass);
   my $rec = $rvault6->getrecord($uuid);
   if ($rec->user ne 'xxx') {
     die "oop way record change failed";
@@ -125,7 +126,7 @@ eval {
   }
   $vault6->save(file=>'t/6a.out');
   
-  my $rvault6a = new Crypt::PWSafe3(file => 't/6a.out', password => 'tom');
+  my $rvault6a = new Crypt::PWSafe3(file => 't/6a.out', password => $pass);
   if ($rvault6->getrecord($uuid)) {
       die "deleted record reappears after save and reload";
   }
