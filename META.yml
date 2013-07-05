@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Crypt-PWSafe3
-version:            1.11
+version:            1.12
 abstract:           ~
 author:
     - Thomas Linden <tlinden@cpan.org>
