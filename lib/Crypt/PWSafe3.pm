@@ -22,7 +22,7 @@ use Data::Dumper;
 use Exporter ();
 use vars qw(@ISA @EXPORT);
 
-$Crypt::PWSafe3::VERSION = '1.10';
+$Crypt::PWSafe3::VERSION = '1.11';
 
 use Crypt::PWSafe3::Field;
 use Crypt::PWSafe3::HeaderField;
@@ -294,6 +294,18 @@ sub read {
   $this->{fd}->close();
 }
 
+sub untaint {
+  #
+  # untaint path's
+  my ($this, $path) = @_;
+  if($path =~ /([\w\-\/\\\.:]+\z)/) {
+    return $1;
+  }
+  else {
+   # fail, return unchanged
+   return $path;
+  }
+}
 
 sub save {
   #
@@ -325,8 +337,9 @@ sub save {
   $this->addheader($whatsaved);
   $this->addheader($whosaved);
 
-  my $tmpfile = File::Spec->catfile(File::Spec->tmpdir(),
-				    ".vault-" . unpack("L<4", $this->random(16)));
+  my $tmpfile = $this->untaint(File::Spec->catfile(File::Spec->tmpdir(),
+		               ".vault-" . unpack("L<4", $this->random(16))));
+  
   unlink $tmpfile;
   my $fd = new FileHandle($tmpfile, 'w') or croak "Could not open tmpfile $tmpfile: $!\n";
   $fd->binmode();
@@ -942,7 +955,7 @@ in this module are his ideas ported to perl.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2011-2012 by T.Linden <tlinden@cpan.org>.
+Copyright (c) 2011-2013 by T.Linden <tlinden@cpan.org>.
 All rights reserved.
 
 =head1 LICENSE
@@ -952,7 +965,7 @@ and/or modify it under the same terms as Perl itself.
 
 =head1 VERSION
 
-Crypt::PWSafe3 Version 1.10.
+Crypt::PWSafe3 Version 1.11.
 
 =cut
 

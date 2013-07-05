@@ -6,7 +6,7 @@ use Exporter ();
 use vars qw(@ISA @EXPORT);
 use utf8;
 
-$Crypt::PWSafe3::HeaderField::VERSION = '1.02';
+$Crypt::PWSafe3::HeaderField::VERSION = '1.01';
 
 %Crypt::PWSafe3::HeaderField::map2name = (
 	    0x00 => "version",
@@ -195,7 +195,7 @@ T. Linden <tlinden@cpan.org>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2011 by T.Linden <tlinden@cpan.org>.
+Copyright (c) 2011-2013 by T.Linden <tlinden@cpan.org>.
 All rights reserved.
 
 =head1 LICENSE
